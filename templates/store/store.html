@@ -120,7 +120,7 @@
 
 				<header class="border-bottom mb-4 pb-3">
 					<div class="form-inline">
-						<span class="mr-md-auto"><b>{{products_count}}</b>  Productos encontrados </span>
+						<span class="mr-md-auto"><b>{{products_count}}</b> Productos encontrados </span>
 
 					</div>
 				</header><!-- sect-heading -->
@@ -131,12 +131,12 @@
 						<figure class="card card-product-grid">
 							<div class="img-wrap">
 
-								<a href="{{ product.get_url}}"><img src="{{product.images.url}}"></a> 
+								<a href="{{ product.get_url}}"><img src="{{product.images.url}}"></a>
 
 							</div> <!-- img-wrap.// -->
 							<figcaption class="info-wrap">
 								<div class="fix-height">
-								<a href="{{ product.get_url}}" class="title">{{product.product_name}}</a>
+									<a href="{{ product.get_url}}" class="title">{{product.product_name}}</a>
 									<div class="price-wrap mt-2">
 										<span class="price">Gs. {{product.price}}</span>
 										<del class="price-old">$1980</del>
@@ -148,7 +148,7 @@
 					</div> <!-- col.// -->
 					{% endfor %}
 
-					
+
 				</div> <!-- row end.// -->
 
 
