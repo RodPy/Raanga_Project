@@ -31,7 +31,8 @@
 						<div class="row">
 							<div class="item-option-select">
 								<h6>Choose Color</h6>
-								<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+								<div class="btn-group btn-group-sm btn-group-toggle"
+									data-toggle="buttons">
 									<label class="btn btn-light">
 										<input type="radio" name="radio_color"> Silver
 									</label>
@@ -50,7 +51,8 @@
 						<div class="row">
 							<div class="item-option-select">
 								<h6>Select Size</h6>
-								<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+								<div class="btn-group btn-group-sm btn-group-toggle"
+									data-toggle="buttons">
 									<label class="btn btn-light">
 										<input type="radio" name="radio_color"> S
 									</label>
@@ -70,51 +72,64 @@
 
 						{% if single_product.stock <= 0 %}
 							<h5>Producto fuera de stock </h5>
-						{% else %}
-						<a href="{% url 'add_cart' single_product.id %}" class="btn  btn-primary"> <span class="text">Agregar al carrito</span>
-						{% endif %}	
-							<i class="fas fa-shopping-cart"></i> </a>
-					</article> <!-- product-info-aside .// -->
-				</main> <!-- col.// -->
-			</div> <!-- row.// -->
-		</div> <!-- card.// -->
-		<!-- ============================ COMPONENT 1 END .// ================================= -->
+							
+							{% else %}
 
-		<br>
+								{% if in_cart %}
 
-		<div class="row">
-			<div class="col-md-9">
+									<a href="#" class="btn btn-success"> <span class="text"> Producto agregado al carrito </span> <i class="fas fa-check"></i></a>
+									<a href="{% url 'cart' %}" class="btn btn-outline-primary"> <span class="text"> Ver carrito de compra </span> <i class="fas fa-eye"></i> </a>
 
-				<header class="section-heading">
-					<h3>Customer Reviews </h3>
+									{% else %}
 
-				</header>
+									<a href="{% url 'add_cart' single_product.id %}" class="btn btn-primary"> <span class="text">Agregar al carrito</span> <i class="fas fa-shopping-cart"></i> </a>
 
-				<article class="box mb-3">
-					<div class="icontext w-100">
-						<img src="./images/avatars/avatar1.jpg" class="img-xs icon rounded-circle">
-						<div class="text">
-							<span class="date text-muted float-md-right">24.04.2020 </span>
-							<h6 class="mb-1">Mike John </h6>
+								{% endif %}
 
+						{% endif %}
+						</article> <!-- product-info-aside .// -->
+					</main> <!-- col.// -->
+				</div> <!-- row.// -->
+			</div> <!-- card.// -->
+			<!-- ============================ COMPONENT 1 END .// ================================= -->
+			<br>
+
+			<div class="row">
+				<div class="col-md-9">
+
+					<header class="section-heading">
+						<h3>Customer Reviews </h3>
+
+					</header>
+
+					<article class="box mb-3">
+						<div class="icontext w-100">
+							<img src="./images/avatars/avatar1.jpg" class="img-xs icon
+								rounded-circle">
+							<div class="text">
+								<span class="date text-muted float-md-right">24.04.2020 </span>
+								<h6 class="mb-1">Mike John </h6>
+
+							</div>
+						</div> <!-- icontext.// -->
+						<div class="mt-3">
+							<p>
+								Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+								sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+								veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip
+							</p>
 						</div>
-					</div> <!-- icontext.// -->
-					<div class="mt-3">
-						<p>
-							Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip
-						</p>
-					</div>
-				</article>
+					</article>
 
 
 
-			</div> <!-- col.// -->
-		</div> <!-- row.// -->
+				</div> <!-- col.// -->
+			</div> <!-- row.// -->
 
 
-	</div> <!-- container .//  -->
-</section>
-<!-- ========================= SECTION CONTENT END// ========================= -->
-{% endblock %}
+		</div> <!-- container .//  -->
+	</section>
+	<!-- ========================= SECTION CONTENT END// ========================= -->
+	{% endblock %}
