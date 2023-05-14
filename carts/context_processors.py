@@ -1,7 +1,7 @@
 from .models import Cart, CartItem
 from .views import _cart_id
 
-
+## Ver los items del carrito 
 def counter(request):
     cart_count = 0
 
@@ -10,10 +10,10 @@ def counter(request):
         
         cart_items = CartItem.objects.all().filter(cart=cart[:1])
 
-        # if request.user.is_authenticated:
-        #     cart_items = CartItem.objects.all().filter(user=request.user)
-        # else:
-        #     cart_items = CartItem.objects.all().filter(cart=cart[:1])
+        if request.user.is_authenticated:
+            cart_items = CartItem.objects.all().filter(user=request.user)
+        else:
+            cart_items = CartItem.objects.all().filter(cart=cart[:1])
 
         for cart_item in cart_items:
             cart_count += cart_item.quantity
