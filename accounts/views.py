@@ -9,6 +9,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from .models import Account
+from carts.views import _cart_id
+from carts.models import Cart, CartItem
 # Create your views here.
 
 def register (request):
@@ -63,14 +65,22 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
+            try:
+                cart= Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exists =CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    cart_item= CartItem.objects.filter(cart=cart)
+                    for item in cart_item:
+                        item.user = user
+                        item.save()
+            except:
+                pass
             auth.login(request,user)
             messages.success(request, 'Has inciada sesion exitosamente')
             return redirect('dashboard')    
         else:
             messages.error(request, 'Las credenciales son incorrectas')
             return redirect('login')
-    
-
     return render(request,'accounts/login.html')
 
 
