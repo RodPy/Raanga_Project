@@ -137,6 +137,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/media/'
 
 
+
+from django.contrib.messages import constants as messeges
+MESSAGES_TAGS={
+    messeges.ERROR :'danger'
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

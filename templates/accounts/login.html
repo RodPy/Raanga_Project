@@ -1,16 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-conten padding-y" style="min-height:84vh">
 
     <!-- ============================ COMPONENT LOGIN   ================================= -->
         <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+          {% include 'includes/alerts.html' %}
           <div class="card-body">
           <h4 class="card-title mb-4">Login</h4>
-          <form>
+          <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+
               <div class="form-group">
-                 <input type="email" class="form-control" placeholder="Email" >
+                 <input type="email" class="form-control" placeholder="Email"  name = 'email'>
               </div> <!-- form-group// -->
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" >
+                <input type="password" class="form-control" placeholder="Password"  name="password">
               </div> <!-- form-group// -->
               
               <div class="form-group">
@@ -24,10 +31,12 @@
           </div> <!-- card-body.// -->
         </div> <!-- card .// -->
     
-         <p class="text-center mt-4">No tienes una cuenta? <a href="#">Registrate</a></p>
+         <p class="text-center mt-4">No tienes una cuenta? <a href="{% url 'register' %}">Registrate</a></p>
          <br><br>
     <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
     
     
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
+
+    {% endblock %}
