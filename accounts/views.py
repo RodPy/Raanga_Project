@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages,auth
 from .forms import RegistrationsForms
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
 from .models import Account
 # Create your views here.
 
 def register (request):
-    
     form = RegistrationsForms
     if request.method == 'POST':
         form= RegistrationsForms(request.POST)
@@ -26,7 +31,23 @@ def register (request):
                 password=password)
             user.phone_number =phone_number
             user.save()
+            
+            #Mensaje de activacion por email
+            current_site= get_current_site(request)
+            mail_subjet = "Favor activa tu cuenta en RAANGA"
+            body = render_to_string('accounts/account_verification_email.html', {
+                'user': user,
+                'domain':current_site,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            to_email = email
+            send_email = EmailMessage(mail_subjet, body, to=[to_email])
+            send_email.send()
+            
             messages.success(request,'Se registro el usuario exitosamente')
+            
+            # return redirect('accounts/login/?command=verification&email='+email)
             return redirect('register')
 
     context={
@@ -45,7 +66,7 @@ def login(request):
             auth.login(request,user)
             return redirect('home')    
         else:
-            messages.error(request, ' Las credenciales son incorrectas ')
+            messages.error(request, 'Las credenciales son incorrectas')
             return redirect('login')
     
 
@@ -59,3 +80,19 @@ def logout(request):
 
     return redirect('login')
 
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError,Account.DoesNotExist):
+        user= None
+
+    if user is not None and default_token_generator.check_token(user,token):
+        user.is_active = True
+        user.save()
+        messages.success(request,"Felicidades tu cuenta esta activada")
+        return redirect ('login')
+    else:
+        messages.error(request,"La activacion es invalida")
+        return redirect('register')
