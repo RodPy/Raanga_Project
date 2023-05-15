@@ -11,6 +11,7 @@ from django.core.mail import EmailMessage
 from .models import Account
 from carts.views import _cart_id
 from carts.models import Cart, CartItem
+import requests 
 # Create your views here.
 
 def register (request):
@@ -102,9 +103,21 @@ def login(request):
                                 item.save()
             except:
                 pass
+            
+            
             auth.login(request,user)
             messages.success(request, 'Has inciada sesion exitosamente')
-            return redirect('dashboard')    
+            
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                params= dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('dashboard')    
+
         else:
             messages.error(request, 'Las credenciales son incorrectas')
             return redirect('login')
