@@ -147,8 +147,10 @@ MESSAGES_TAGS={
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER= 'rrojas@paraguayeduca.org'
-EMAIL_HOST_PASSWORD = 'aS793793'
+# EMAIL_HOST_USER= 'rrojas@paraguayeduca.org'
+# EMAIL_HOST_PASSWORD = 'aS793793'
+EMAIL_HOST_USER= 'raanga.store@gmail.com'
+EMAIL_HOST_PASSWORD = 'cgebundaaguuodrh'
 EMAIL_USE_TLS = True
 
 # Default primary key field type
