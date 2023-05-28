@@ -120,15 +120,15 @@ def payments(request):
 
     CartItem.objects.filter(user=request.user).delete()
 
-    # mail_subject = 'Gracias por tu compra'
-    # body = render_to_string('orders/order_recieved_email.html', {
-    #     'user': request.user,
-    #     'order': order,
-    # })
+    mail_subject = 'Gracias por tu compra'
+    body = render_to_string('orders/order_recieved_email.html', {
+        'user': request.user,
+        'order': order,
+    })
 
-    # to_email = request.user.email
-    # send_email = EmailMessage(mail_subject, body, to=[to_email])
-    # send_email.send()
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, body, to=[to_email])
+    send_email.send()
 
     # data = {
     #     'order_number': order.order_number,
