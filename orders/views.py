@@ -1,10 +1,14 @@
 from django.shortcuts import render,redirect
 from accounts.models import Account
+from django.http import JsonResponse
+import json
 from carts.models import Cart,CartItem
 from store.models import Product,Variation
 from .forms import OrderForm
-from .models import Order,OrderProduct
+from .models import Order,OrderProduct,Payment
 import datetime
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 # Create your views here.
 
 def place_order(request, total =0, quantity=0):
@@ -73,5 +77,64 @@ def place_order(request, total =0, quantity=0):
         return redirect('checkout')
 
 def payments(request):
+    body = json.loads(request.body)
+    order = Order.objects.get(user=request.user, is_ordered=False, order_number=body['orderID'])
+
+    payment = Payment(
+        user = request.user,
+        payment_id = body['transID'],
+        payment_method = body['payment_method'],
+        amount_id = order.order_total,
+        status = body['status'],
+    )
+    payment.save()
+    
+    order.payment = payment
+    order.is_ordered = True
+    order.save()
+
+    #Cart item a la tabla de ordenes 
+
+    cart_items= CartItem.objects.filter(user=request.user)
+
+    for item in cart_items:
+        orderproduct = OrderProduct()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = request.user.id
+        orderproduct.product_id = item.product_id
+        orderproduct.quantity = item.quantity
+        orderproduct.product_price = item.product.price
+        orderproduct.ordered = True
+        orderproduct.save()
+
+        cart_items= CartItem.objects.get(id=item.id)
+        product_variations= cart_items.variations.all()
+        orderproduct= OrderProduct.objects.get(id=orderproduct.id)
+        orderproduct.variation.set(product_variations)
+        orderproduct.save()
+
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
+
+    CartItem.objects.filter(user=request.user).delete()
+
+    # mail_subject = 'Gracias por tu compra'
+    # body = render_to_string('orders/order_recieved_email.html', {
+    #     'user': request.user,
+    #     'order': order,
+    # })
+
+    # to_email = request.user.email
+    # send_email = EmailMessage(mail_subject, body, to=[to_email])
+    # send_email.send()
+
+    # data = {
+    #     'order_number': order.order_number,
+    #     'transID' : payment.payment_id,
+    # }
+
+    # return JsonResponse(data)
 
     return render(request,'orders/payments.html')
