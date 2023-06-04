@@ -37,6 +37,7 @@ class MyAccountManager(BaseUserManager):
 
         user.save(using=self._db)
         return user
+    
 
 class Account(AbstractBaseUser):
     first_name = models.CharField(max_length=50)
@@ -60,6 +61,9 @@ class Account(AbstractBaseUser):
 
     objects= MyAccountManager()
 
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
     def __str__(self):
         return self.email
     
