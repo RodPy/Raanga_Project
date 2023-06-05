@@ -84,7 +84,6 @@ def search(request):
 
 def submit_review(request,product_id):
     url = request.META.get('HTTP_REFERER')
-    print(product_id)
     if request.method == 'POST':
         try:
             reviews = ReviewRating.objects.get(user__id=request.user.id, product__id=product_id)

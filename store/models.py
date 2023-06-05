@@ -13,6 +13,8 @@ class Product(models.Model):
     description= models.TextField(max_length=500, blank=True)
     price= models.IntegerField()
     images= models.ImageField(upload_to='photos/products')
+    file3D= models.FileField(upload_to='photos/file3D',blank=True,default=None)
+
     stock= models.IntegerField()
     is_available= models.BooleanField(default=True)
 
