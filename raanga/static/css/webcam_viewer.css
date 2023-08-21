@@ -1,0 +1,38 @@
+#webcam-feed{
+    clear: both;
+    display: block;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+
+.webcam-derived {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+}
+
+.webcam-container {
+    border-radius: 10px;
+    position: absolute;
+    background-color: black;
+}
+
+.webcam-input-video {
+    top: 50%;
+    left: 0;
+    transform: translate(0, 0);
+    width: 450px;
+    height: 450px;
+    position: absolute;
+    z-index: 0;
+}
+
+.model-drawing-canvas {
+    position: absolute;
+    z-index: 1;
+    background-color: transparent;
+    overflow: visible;
+}

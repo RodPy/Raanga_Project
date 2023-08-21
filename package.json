@@ -1,0 +1,20 @@
+{
+  "name": "raanga_project-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --watch --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.2-rc2",
+    "three": "^0.153.0"
+  }
+}
