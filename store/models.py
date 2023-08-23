@@ -8,6 +8,11 @@ from django.db.models import Avg,Count
 # Create your models here.
 
 class Product(models.Model):
+    PRODUCT_TYPES = [
+        ("G", "Glasses"),
+        ("C", "Collar"),
+        ("O", "Other"),
+    ]
     product_name= models.CharField(max_length=200, unique=True)
     slug = models.CharField(max_length=200, unique=True)
     description= models.TextField(max_length=500, blank=True)
@@ -15,11 +20,22 @@ class Product(models.Model):
     images= models.ImageField(upload_to='photos/products')
     stock= models.IntegerField()
     is_available= models.BooleanField(default=True)
+    model3d_url= models.CharField(max_length=200)
+    product_type= models.CharField(max_length=2, choices=PRODUCT_TYPES, default="O")
+    model_offset_x= models.FloatField(default=0.0)
+    model_offset_y= models.FloatField(default=0.0)
+    model_offset_z= models.FloatField(default=0.0)
+    model_scale_multiplier= models.FloatField(default=1.0)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     create_date= models.DateTimeField(auto_now_add=True)
     modified_date= models.DateTimeField(auto_now=True)
 
+    def has_model(self):
+        if len(self.model3d_url) == 0:
+            return False
+        return True
+    
     def get_url(self):
         return reverse('product_detail',args=[self.category.slug, self.slug])
 

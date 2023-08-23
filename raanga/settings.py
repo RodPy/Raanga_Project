@@ -29,6 +29,7 @@ DEBUG = config('DEBUG',cast=bool)
 ALLOWED_HOSTS = [
     '54.201.234.181',
     '0.0.0.0',
+    '127.0.0.1'
 ]
 
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'store',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    'corsheaders'
     # 'admin_honeypot',
 
 
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
+
 SESSION_EXPIRE_SECONDS = 3600
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = 'accounts/login'
@@ -169,3 +173,5 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
+
+CORS_ORIGIN_ALLOW_ALL = True
