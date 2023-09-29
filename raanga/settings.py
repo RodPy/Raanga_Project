@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'store',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
-    'corsheaders'
+    'corsheaders',
+    'djrichtextfield',
+    'ckeditor',
     # 'admin_honeypot',
 
 
@@ -105,7 +107,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
