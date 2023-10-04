@@ -41,7 +41,7 @@ def product_detail(request, category_slug, product_slug):
     try:
         single_product= Product.objects.get(category__slug = category_slug, slug=product_slug)
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request),product= single_product).exists()
-        
+        show_webcam = request.GET.get('show_webcam', '0') == '1' #para mostrar o cultar webcam y carousel
 
     except Exception as e:
         raise e
@@ -61,6 +61,7 @@ def product_detail(request, category_slug, product_slug):
         'in_cart':in_cart,
         'orderproduct': orderproduct,
         'reviews': reviews,
+        'show_webcam' : show_webcam, #para mostrar u ocultar webcam y carousel
     }
     
     return render(request, 'store/product_detail.html',context)
